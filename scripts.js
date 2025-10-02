@@ -67,15 +67,50 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // ===== YOUR CHALLENGE: IMPLEMENT THESE FUNCTIONS =====
 
-// TODO: Add keyboard event listener
-// document.addEventListener("keydown", (event) => {
-//     // Your code here!
-// });
+document.addEventListener("keydown", (event) => {
+  logDebug(`Key pressed: "${event.key}"`, "info");
 
-// TODO: Implement addLetter function
-// function addLetter(letter) {
-//     // Your code here!
-// }
+  if (gameOver) {
+    logDebug("Game is over", "error");
+    return;
+  }
+
+  const key = event.key.toUpperCase();
+  if (key === "BACKSPACE") {
+    deleteLetter();
+    return;
+  }
+  if (key === "ENTER") {
+    submitGuess();
+    return;
+  }
+  if (/^[A-Z]$/.test(key)) {
+    addLetter(key);
+    return;
+  }
+});
+
+
+function addLetter(letter) {
+  if (currentTile >= 5) {
+    logDebug("❌ Row is already full. Ignoring extra input.", "error");
+    return;
+  }
+  const rowElement = rows[currentRow];
+  const tiles = rowElement.querySelectorAll(".tile");
+  if (!tiles || tiles.length < 5) {
+    return;
+  }
+  const tile = tiles[currentTile];
+  tile.textContent = letter;
+  tile.classList.add("filled");
+
+  currentTile += 1;
+  if (typeof getCurrentWord === "function") {
+    logDebug(`Current guess: "${getCurrentWord()}"`, "info");
+  }
+}
+
 
 // TODO: Implement deleteLetter function  
 // function deleteLetter() {
