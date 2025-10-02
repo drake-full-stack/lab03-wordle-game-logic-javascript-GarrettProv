@@ -171,3 +171,32 @@ footer {
     color: #6e6e6e;
     margin-top: 20px;
 }
+
+.tile.filled {
+    border-color: #565758;
+    animation: pop 0.1s ease-in-out;
+}
+
+.tile.correct {
+    background-color: #6aaa64;
+    border-color: #6aaa64;
+    color: white;
+}
+
+.tile.present {
+    background-color: #c9b458;
+    border-color: #c9b458;
+    color: white;
+}
+
+.tile.absent {
+    background-color: #787c7e;
+    border-color: #787c7e;
+    color: white;
+}
+
+@keyframes pop {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+}

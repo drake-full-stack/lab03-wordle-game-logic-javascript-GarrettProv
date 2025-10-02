@@ -181,9 +181,38 @@ function submitGuess() {
 }
 
 
-// TODO: Implement checkGuess function (the hardest part!)
-// function checkGuess(guess, tiles) {
-//     // Your code here!
-//     // Remember: handle duplicate letters correctly
-//     // Return the result array
-// }
+function checkGuess(guess, tiles) {
+  logDebug(`Starting analysis for "${guess}"`, 'info');
+
+  const target = TARGET_WORD.split('');
+  const guessArray = guess.split('');
+  const result = ['absent', 'absent', 'absent', 'absent', 'absent'];
+
+  for (let i = 0; i < 5; i++) {
+    if (guessArray[i] === target[i]) {
+      result[i] = 'correct';
+      target[i] = null;     
+      guessArray[i] = null;  
+    }
+  }
+
+  for (let i = 0; i < 5; i++) {
+    if (guessArray[i] !== null) {
+      const idx = target.indexOf(guessArray[i]);
+      if (idx !== -1) {
+        result[i] = 'present';
+        target[idx] = null;  
+        guessArray[i] = null;  
+      }
+    }
+  }
+
+  for (let i = 0; i < 5; i++) {
+    const tile = tiles[i];
+    tile.classList.remove('correct', 'present', 'absent');
+    tile.classList.add(result[i]);
+  }
+
+  logDebug(`Result for row ${currentRow}: ${result.join(', ')}`, 'info');
+  return result;
+}
